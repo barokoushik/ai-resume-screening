@@ -62,6 +62,54 @@ SKILLS = [
     "api"
 ]
 
+SKILL_WEIGHTS = {
+    "python": 3,
+    "java": 3,
+    "javascript": 3,
+    "typescript": 3,
+    "c": 3,
+    "c++": 3,
+    "c#": 3,
+
+    "flask": 3,
+    "django": 3,
+    "fastapi": 3,
+    "react": 3,
+    "angular": 3,
+    "vue": 3,
+    "node.js": 3,
+    "express": 3,
+
+    "sql": 2,
+    "mysql": 2,
+    "postgresql": 2,
+    "mongodb": 2,
+    "sqlite": 2,
+
+    "machine learning": 3,
+    "deep learning": 3,
+    "tensorflow": 3,
+    "pytorch": 3,
+    "scikit-learn": 3,
+
+    "aws": 2,
+    "azure": 2,
+    "google cloud": 2,
+    "docker": 2,
+    "kubernetes": 2,
+
+    "html": 1,
+    "css": 1,
+    "bootstrap": 1,
+    "git": 1,
+    "github": 1,
+    "api": 2,
+    "rest api": 2,
+    "pandas": 2,
+    "numpy": 2,
+    "artificial intelligence": 3
+}
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     resume_text = None
@@ -132,11 +180,22 @@ def home():
                     ]
 
                     if required_skills:
+                        total_weight = sum(
+                            SKILL_WEIGHTS.get(skill, 1)
+                            for skill in required_skills
+                        )
+
+                        matched_weight = sum(
+                            SKILL_WEIGHTS.get(skill, 1)
+                            for skill in matched_skills
+                        )
+
                         match_score = round(
-                            (len(matched_skills) / len(required_skills)) * 100
+                            (matched_weight / total_weight) * 100
                         )
                     else:
                         match_score = 0
+                        
                     if match_score >= 80:
                         recommendation = "Strong Match"
                     elif match_score >= 60:
