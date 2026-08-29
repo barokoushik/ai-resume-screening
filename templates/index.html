@@ -46,6 +46,7 @@
 
             <textarea
                 id="job-description"
+                name="job_description"
                 rows="7"
                 placeholder="Paste the job description here..."
             ></textarea>
@@ -71,13 +72,29 @@
     </div>
 {% endif %}
 
-{% if resume_text %}
+{% if match_score is not none %}
     <div class="result-message">
-        <h3>Resume Successfully Processed</h3>
-        <p>
-            The PDF was uploaded successfully and readable
-            text was extracted.
-        </p>
+        <h3>Screening Result</h3>
+
+        <p><strong>Match Score:</strong> {{ match_score }}%</p>
+
+        <p><strong>Matched Skills:</strong></p>
+        <ul>
+            {% for skill in matched_skills %}
+                <li>{{ skill }}</li>
+            {% else %}
+                <li>No matching skills found.</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Missing Skills:</strong></p>
+        <ul>
+            {% for skill in missing_skills %}
+                <li>{{ skill }}</li>
+            {% else %}
+                <li>No missing skills.</li>
+            {% endfor %}
+        </ul>
     </div>
 {% endif %}
     </section>
