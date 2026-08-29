@@ -127,6 +127,52 @@ def extract_candidate_name(resume_text, filename):
     # Fall back to the PDF filename
     return filename.rsplit(".", 1)[0]
 
+def extract_experience(resume_text):
+        lines = [
+            line.strip()
+            for line in resume_text.splitlines()
+            if line.strip()
+        ]
+
+        experience_keywords = [
+            "experience",
+            "work experience",
+            "professional experience",
+            "employment history"
+        ]
+
+        stop_keywords = [
+            "education",
+            "skills",
+            "projects",
+            "certifications",
+            "achievements",
+            "languages"
+        ]
+
+        start_index = None
+
+        for i, line in enumerate(lines):
+            if line.lower() in experience_keywords:
+                start_index = i + 1
+                break
+
+        if start_index is None:
+            return []
+
+        experience_lines = []
+
+        for line in lines[start_index:]:
+            if line.lower() in stop_keywords:
+                break
+
+            experience_lines.append(line)
+
+            if len(experience_lines) >= 6:
+                break
+
+        return experience_lines
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     resume_text = None
@@ -194,6 +240,7 @@ def home():
                     resume_text,
                     resume.filename
                 )
+                    experience = extract_experience(resume_text)
 
                     matched_skills = [
                         skill
@@ -253,6 +300,7 @@ def home():
                     candidate_results.append({
                         "name": candidate_name,
                         "filename": resume.filename,
+                        "experience": experience,
                         "match_score": match_score,
                         "recommendation": recommendation,
                         "matched_skills": matched_skills,

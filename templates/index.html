@@ -31,8 +31,8 @@
     <section class="screening-card">
 
         <h2>Screen a Candidate</h2>
-
-        <form method="POST" enctype="multipart/form-data">
+        {% if not candidate_results %}
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
 
             <label for="job-title">Job Title</label>
 
@@ -66,6 +66,7 @@
             </button>
 
         </form>
+        {% endif %}
         {% if error %}
     <div class="result-message">
         <h3>Upload Error</h3>
@@ -76,9 +77,32 @@
 {% if candidate_results %}
 <div class="result-message">
     <h3>Candidate Ranking</h3>
+    <div class="results-layout">
+
+    <aside class="ranking-sidebar">
+        <h4>🏆 Ranking</h4>
+
+        {% for candidate in candidate_results %}
+            <a href="#candidate-{{ loop.index }}" class="ranking-item">
+                <span class="rank-number">
+                    #{{ loop.index }}
+                </span>
+
+                <span class="rank-name">
+                    {{ candidate.name }}
+                </span>
+
+                <span class="rank-score">
+                    {{ candidate.match_score }}%
+                </span>
+            </a>
+        {% endfor %}
+    </aside>
+
+    <div class="candidate-results">
 
     {% for candidate in candidate_results %}
-        <div class="candidate-card">
+        <div class="candidate-card" id="candidate-{{ loop.index }}">
             <h4>
                 #{{ loop.index }} — {{ candidate.name }}
             </h4>
@@ -116,46 +140,69 @@
                 </span>
             </p>
 
-            <p><strong>Why this score?</strong></p>
-            <p>{{ candidate.explanation }}</p>
+            <div class="explanation-section">
+                <h5>💡 Why this score?</h5>
+                <p>{{ candidate.explanation }}</p>
+            </div>
+            <div class="experience-section">
+                <h5>💼 Experience Overview</h5>
 
-            <p><strong>Candidate Strengths:</strong></p>
-            <ul>
-                {% for skill in candidate.strengths %}
-                    <li>{{ skill }}</li>
-                {% else %}
-                    <li>No major strengths detected.</li>
-                {% endfor %}
-            </ul>
+                    {% if candidate.experience %}
+                <ul>
+                    {% for line in candidate.experience %}
+                <li>{{ line }}</li>
+                    {% endfor %}
+                </ul>
+                    {% else %}
+            <p>No clearly labeled experience section detected.</p>
+                    {% endif %}
+                </div>
+            <div class="strength-section">
+                <h5>✓ Candidate Strengths</h5>
+                <ul>
+                    {% for skill in candidate.strengths %}
+                        <li>{{ skill }}</li>
+                    {% else %}
+                        <li>No major strengths detected.</li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-            <p><strong>Skill Gaps:</strong></p>
-            <ul>
-                {% for skill in candidate.skill_gaps %}
-                    <li>{{ skill }}</li>
-                {% else %}
-                    <li>No major skill gaps detected.</li>
-                {% endfor %}
-            </ul>
+            <div class="gap-section">
+                <h5>△ Skill Gaps</h5>
+                <ul>
+                    {% for skill in candidate.skill_gaps %}
+                        <li>{{ skill }}</li>
+                    {% else %}
+                        <li>No major skill gaps detected.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="matched-section">
+                <h5>✓ Matched Skills</h5>
+                <ul>
+                    {% for skill in candidate.matched_skills %}
+                        <li>{{ skill }}</li>
+                    {% else %}
+                        <li>No matching skills found.</li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-            <p><strong>Matched Skills:</strong></p>
-            <ul>
-                {% for skill in candidate.matched_skills %}
-                    <li>{{ skill }}</li>
-                {% else %}
-                    <li>No matching skills found.</li>
-                {% endfor %}
-            </ul>
-
-            <p><strong>Missing Skills:</strong></p>
-            <ul>
-                {% for skill in candidate.missing_skills %}
-                    <li>{{ skill }}</li>
-                {% else %}
-                    <li>No missing skills.</li>
-                {% endfor %}
-            </ul>
+            <div class="missing-section">
+                <h5>✕ Missing Skills</h5>
+                <ul>
+                    {% for skill in candidate.missing_skills %}
+                        <li>{{ skill }}</li>
+                    {% else %}
+                        <li>No missing skills.</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     {% endfor %}
+        </div>
+</div>
 </div>
 {% endif %}
 
@@ -166,6 +213,20 @@
 <footer>
     <p>HireLens AI — Explainable AI Resume Screening</p>
 </footer>
+
+<div id="loading-overlay" class="loading-overlay">
+    <div class="loading-box">
+        <div class="loader"></div>
+        <h3>Screening resumes...</h3>
+        <p>Analyzing skills and ranking candidates.</p>
+    </div>
+</div>
+
+<script>
+    function showLoading() {
+        document.getElementById("loading-overlay").style.display = "flex";
+    }
+</script>
 
 </body>
 </html>
