@@ -145,3 +145,14 @@ footer {
 .result-message h3 {
     margin-top: 0;
 }
+
+.recommendation-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1e3a8a;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
