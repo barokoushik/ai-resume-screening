@@ -1,30 +1,66 @@
 from flask import Flask, render_template, request
 from pypdf import PdfReader
+import re
 
 app = Flask(__name__)
 
 SKILLS = [
+    # Programming languages
     "python",
-    "flask",
+    "java",
+    "javascript",
+    "typescript",
+    "c",
+    "c++",
+    "c#",
+
+    # Frontend
     "html",
     "css",
-    "javascript",
-    "git",
-    "github",
+    "react",
+    "angular",
+    "vue",
+    "bootstrap",
+
+    # Backend
+    "flask",
+    "django",
+    "fastapi",
+    "node.js",
+    "express",
+
+    # Databases
     "sql",
     "mysql",
     "postgresql",
-    "rest api",
-    "api",
+    "mongodb",
+    "sqlite",
+
+    # Development tools
+    "git",
+    "github",
     "docker",
+    "kubernetes",
+
+    # Cloud
     "aws",
     "azure",
-    "java",
-    "c++",
-    "react",
-    "node.js"
-]
+    "google cloud",
 
+    # AI / Data
+    "machine learning",
+    "deep learning",
+    "artificial intelligence",
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "tensorflow",
+    "pytorch",
+
+    # APIs
+    "rest api",
+    "api"
+]
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -70,22 +106,29 @@ def home():
                 else:
                     resume_lower = resume_text.lower()
 
+                    def contains_skill(text, skill):
+                        pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
+                        return re.search(pattern, text, re.IGNORECASE) is not None
                     required_skills = [
                         skill
                         for skill in SKILLS
-                        if skill in job_description
-                    ]
+                        if contains_skill(job_description, skill)
+                    ]    
+                    
+                    # Avoid counting generic API separately when REST API is present
+                    if "rest api" in required_skills and "api" in required_skills:
+                        required_skills.remover("api")
 
                     matched_skills = [
                         skill
                         for skill in required_skills
-                        if skill in resume_lower
+                        if contains_skill(resume_lower, skill)
                     ]
 
                     missing_skills = [
                         skill
                         for skill in required_skills
-                        if skill not in resume_lower
+                        if not contains_skill(resume_lower, skill)
                     ]
 
                     if required_skills:
@@ -112,7 +155,8 @@ def home():
                         explanation = "The candidate matches all detected required skills."
                     else:
                         explanation = "The candidate does not match the detected required skills."
-            except Exception:
+            except Exception as e:
+                print("Processing error:", e)
                 error = "Could not read this PDF. Please try another file."
 
     return render_template(
