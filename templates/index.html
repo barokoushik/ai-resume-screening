@@ -3,10 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Resume Screening</title>
+
+    <title>HireLens AI | Resume Screening</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <h1>AI Resume Screening System</h1>
-    <p>Project setup successful.</p>
+
+<header>
+    <div class="logo">HireLens <span>AI</span></div>
+    <p>Intelligent Resume Screening</p>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>Find the Right Candidate Faster</h1>
+
+        <p>
+            Compare resumes with job requirements using AI-powered
+            candidate analysis.
+        </p>
+    </section>
+
+    <section class="screening-card">
+
+        <h2>Screen a Candidate</h2>
+
+        <form>
+
+            <label for="job-title">Job Title</label>
+
+            <input
+                type="text"
+                id="job-title"
+                placeholder="e.g. Python Developer"
+            >
+
+            <label for="job-description">Job Description</label>
+
+            <textarea
+                id="job-description"
+                rows="7"
+                placeholder="Paste the job description here..."
+            ></textarea>
+
+            <label for="resume">Candidate Resume</label>
+
+            <input
+                type="file"
+                id="resume"
+                accept=".pdf"
+            >
+
+            <button type="button">
+                Screen Resume
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>HireLens AI — Explainable AI Resume Screening</p>
+</footer>
+
 </body>
 </html>
