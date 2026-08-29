@@ -32,7 +32,7 @@
 
         <h2>Screen a Candidate</h2>
 
-        <form>
+        <form method="POST" enctype="multipart/form-data">
 
             <label for="job-title">Job Title</label>
 
@@ -55,15 +55,31 @@
             <input
                 type="file"
                 id="resume"
+                name="resume"
                 accept=".pdf"
             >
 
-            <button type="button">
+            <button type="submit">
                 Screen Resume
             </button>
 
         </form>
+        {% if error %}
+    <div class="result-message">
+        <h3>Upload Error</h3>
+        <p>{{ error }}</p>
+    </div>
+{% endif %}
 
+{% if resume_text %}
+    <div class="result-message">
+        <h3>Resume Successfully Processed</h3>
+        <p>
+            The PDF was uploaded successfully and readable
+            text was extracted.
+        </p>
+    </div>
+{% endif %}
     </section>
 
 </main>

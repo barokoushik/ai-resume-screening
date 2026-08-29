@@ -134,3 +134,14 @@ footer {
         padding: 20px;
     }
 }
+.result-message {
+    margin-top: 25px;
+    padding: 16px;
+    background: #eff6ff;
+    border-radius: 7px;
+    border-left: 4px solid #2563eb;
+}
+
+.result-message h3 {
+    margin-top: 0;
+}
