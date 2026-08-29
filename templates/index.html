@@ -81,7 +81,23 @@
 
 <p><strong>Why this score?</strong></p>
 <p>{{ explanation }}</p>
+        <p><strong>Candidate Strengths:</strong></p>
+<ul>
+    {% for skill in strengths %}
+        <li>{{ skill }}</li>
+    {% else %}
+        <li>No major strengths detected.</li>
+    {% endfor %}
+</ul>
 
+<p><strong>Skill Gaps:</strong></p>
+<ul>
+    {% for skill in skill_gaps %}
+        <li>{{ skill }}</li>
+    {% else %}
+        <li>No major skill gaps detected.</li>
+    {% endfor %}
+</ul>
         <p><strong>Matched Skills:</strong></p>
         <ul>
             {% for skill in matched_skills %}

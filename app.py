@@ -120,6 +120,8 @@ def home():
     missing_skills = []
     recommendation = None
     explanation = None
+    strengths = []
+    skill_gaps = []
 
     if request.method == "POST":
         resume = request.files.get("resume")
@@ -195,7 +197,7 @@ def home():
                         )
                     else:
                         match_score = 0
-                        
+
                     if match_score >= 80:
                         recommendation = "Strong Match"
                     elif match_score >= 60:
@@ -214,6 +216,9 @@ def home():
                         explanation = "The candidate matches all detected required skills."
                     else:
                         explanation = "The candidate does not match the detected required skills."
+                        
+                    strengths = matched_skills[:5]
+                    skill_gaps = missing_skills[:5]
             except Exception as e:
                 print("Processing error:", e)
                 error = "Could not read this PDF. Please try another file."
@@ -226,7 +231,9 @@ def home():
     matched_skills=matched_skills,
     missing_skills=missing_skills,
     recommendation=recommendation,
-    explanation=explanation
+    explanation=explanation,
+    strengths=strengths,
+    skill_gaps=skill_gaps
 )
 
 
