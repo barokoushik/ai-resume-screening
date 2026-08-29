@@ -416,3 +416,42 @@ footer {
     margin: 0;
     color: #164e63;
 }
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.results-header h3 {
+    margin: 0;
+}
+
+.screen-more-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.screen-more-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 650px) {
+    .results-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .screen-more-btn {
+        text-align: center;
+    }
+}
