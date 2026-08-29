@@ -110,6 +110,23 @@ SKILL_WEIGHTS = {
     "artificial intelligence": 3
 }
 
+def extract_candidate_name(resume_text, filename):
+    lines = [
+        line.strip()
+        for line in resume_text.splitlines()
+        if line.strip()
+    ]
+
+    if lines:
+        first_line = lines[0]
+
+        # A resume name is usually a short first line
+        if len(first_line.split()) <= 5 and len(first_line) <= 60:
+            return first_line
+
+    # Fall back to the PDF filename
+    return filename.rsplit(".", 1)[0]
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     resume_text = None
@@ -173,6 +190,10 @@ def home():
                         continue
 
                     resume_lower = resume_text.lower()
+                    candidate_name = extract_candidate_name(
+                    resume_text,
+                    resume.filename
+                )
 
                     matched_skills = [
                         skill
@@ -230,6 +251,7 @@ def home():
                     skill_gaps = missing_skills[:5]
 
                     candidate_results.append({
+                        "name": candidate_name,
                         "filename": resume.filename,
                         "match_score": match_score,
                         "recommendation": recommendation,

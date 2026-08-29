@@ -80,8 +80,12 @@
     {% for candidate in candidate_results %}
         <div class="candidate-card">
             <h4>
-                #{{ loop.index }} — {{ candidate.filename }}
+                #{{ loop.index }} — {{ candidate.name }}
             </h4>
+
+            <p>
+                <small>File: {{ candidate.filename }}</small>
+            </p>
 
             <p>
                 <strong>Match Score:</strong>
