@@ -34,6 +34,8 @@ def home():
     match_score = None
     matched_skills = []
     missing_skills = []
+    recommendation = None
+    explanation = None
 
     if request.method == "POST":
         resume = request.files.get("resume")
@@ -92,18 +94,37 @@ def home():
                         )
                     else:
                         match_score = 0
+                    if match_score >= 80:
+                        recommendation = "Strong Match"
+                    elif match_score >= 60:
+                        recommendation = "Good Match"
+                    elif match_score >= 40:
+                        recommendation = "Moderate Match"
+                    else:
+                        recommendation = "Low Match"
 
+                    if matched_skills and missing_skills:
+                        explanation = (
+                            f"The candidate matches {len(matched_skills)} required skills "
+                            f"but is missing {len(missing_skills)} required skills."
+                        )
+                    elif matched_skills:
+                        explanation = "The candidate matches all detected required skills."
+                    else:
+                        explanation = "The candidate does not match the detected required skills."
             except Exception:
                 error = "Could not read this PDF. Please try another file."
 
     return render_template(
-        "index.html",
-        resume_text=resume_text,
-        error=error,
-        match_score=match_score,
-        matched_skills=matched_skills,
-        missing_skills=missing_skills
-    )
+    "index.html",
+    resume_text=resume_text,
+    error=error,
+    match_score=match_score,
+    matched_skills=matched_skills,
+    missing_skills=missing_skills,
+    recommendation=recommendation,
+    explanation=explanation
+)
 
 
 if __name__ == "__main__":
