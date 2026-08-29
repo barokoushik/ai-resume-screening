@@ -122,15 +122,19 @@ def home():
     explanation = None
     strengths = []
     skill_gaps = []
+    candidate_results = []
 
     if request.method == "POST":
-        resume = request.files.get("resume")
+        resumes = request.files.getlist("resumes")
         job_description = request.form.get("job_description", "").lower()
 
-        if not resume or resume.filename == "":
-            error = "Please select a PDF resume."
+        if not resumes or all(resume.filename == "" for resume in resumes):
+            error = "Please select at least one PDF resume."
 
-        elif not resume.filename.lower().endswith(".pdf"):
+        elif any(
+            resume.filename and not resume.filename.lower().endswith(".pdf")
+            for resume in resumes
+        ):
             error = "Only PDF files are supported."
 
         elif not job_description.strip():
@@ -138,36 +142,37 @@ def home():
 
         else:
             try:
-                reader = PdfReader(resume)
+                def contains_skill(text, skill):
+                    pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
+                    return re.search(pattern, text, re.IGNORECASE) is not None
 
-                extracted_pages = []
+                required_skills = [
+                    skill
+                    for skill in SKILLS
+                    if contains_skill(job_description, skill)
+                ]
 
-                for page in reader.pages:
-                    text = page.extract_text()
+                # Avoid counting generic API separately when REST API is present
+                if "rest api" in required_skills and "api" in required_skills:
+                    required_skills.remove("api")
 
-                    if text:
-                        extracted_pages.append(text)
+                for resume in resumes:
+                    reader = PdfReader(resume)
 
-                resume_text = "\n".join(extracted_pages)
+                    extracted_pages = []
 
-                if not resume_text.strip():
-                    error = "No readable text was found in this PDF."
+                    for page in reader.pages:
+                        text = page.extract_text()
 
-                else:
+                        if text:
+                            extracted_pages.append(text)
+
+                    resume_text = "\n".join(extracted_pages)
+
+                    if not resume_text.strip():
+                        continue
+
                     resume_lower = resume_text.lower()
-
-                    def contains_skill(text, skill):
-                        pattern = r"(?<!\w)" + re.escape(skill) + r"(?!\w)"
-                        return re.search(pattern, text, re.IGNORECASE) is not None
-                    required_skills = [
-                        skill
-                        for skill in SKILLS
-                        if contains_skill(job_description, skill)
-                    ]    
-                    
-                    # Avoid counting generic API separately when REST API is present
-                    if "rest api" in required_skills and "api" in required_skills:
-                        required_skills.remover("api")
 
                     matched_skills = [
                         skill
@@ -213,28 +218,53 @@ def home():
                             f"but is missing {len(missing_skills)} required skills."
                         )
                     elif matched_skills:
-                        explanation = "The candidate matches all detected required skills."
+                        explanation = (
+                            "The candidate matches all detected required skills."
+                        )
                     else:
-                        explanation = "The candidate does not match the detected required skills."
-                        
+                        explanation = (
+                            "The candidate does not match the detected required skills."
+                        )
+
                     strengths = matched_skills[:5]
                     skill_gaps = missing_skills[:5]
+
+                    candidate_results.append({
+                        "filename": resume.filename,
+                        "match_score": match_score,
+                        "recommendation": recommendation,
+                        "matched_skills": matched_skills,
+                        "missing_skills": missing_skills,
+                        "strengths": strengths,
+                        "skill_gaps": skill_gaps,
+                        "explanation": explanation
+                    })
+
+                candidate_results.sort(
+                    key=lambda candidate: candidate["match_score"],
+                    reverse=True
+                )
+
+                if not candidate_results:
+                    error = "No readable text was found in the uploaded PDFs."
+
             except Exception as e:
                 print("Processing error:", e)
-                error = "Could not read this PDF. Please try another file."
+                error = "Could not process the uploaded resumes."
 
     return render_template(
-    "index.html",
-    resume_text=resume_text,
-    error=error,
-    match_score=match_score,
-    matched_skills=matched_skills,
-    missing_skills=missing_skills,
-    recommendation=recommendation,
-    explanation=explanation,
-    strengths=strengths,
-    skill_gaps=skill_gaps
-)
+        "index.html",
+        resume_text=resume_text,
+        error=error,
+        match_score=match_score,
+        matched_skills=matched_skills,
+        missing_skills=missing_skills,
+        recommendation=recommendation,
+        explanation=explanation,
+        strengths=strengths,
+        skill_gaps=skill_gaps,
+        candidate_results=candidate_results
+    )
 
 
 if __name__ == "__main__":

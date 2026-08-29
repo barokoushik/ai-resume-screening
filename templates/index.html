@@ -56,8 +56,9 @@
             <input
                 type="file"
                 id="resume"
-                name="resume"
+                name="resumes"
                 accept=".pdf"
+                multiple required
             >
 
             <button type="submit">
@@ -72,51 +73,69 @@
     </div>
 {% endif %}
 
-{% if match_score is not none %}
-    <div class="result-message">
-        <h3>Screening Result</h3>
+{% if candidate_results %}
+<div class="result-message">
+    <h3>Candidate Ranking</h3>
 
-        <p><strong>Match Score:</strong> {{ match_score }}%</p>
-        <p><strong>Recommendation:</strong> {{ recommendation }}</p>
+    {% for candidate in candidate_results %}
+        <div class="candidate-card">
+            <h4>
+                #{{ loop.index }} — {{ candidate.filename }}
+            </h4>
 
-<p><strong>Why this score?</strong></p>
-<p>{{ explanation }}</p>
-        <p><strong>Candidate Strengths:</strong></p>
-<ul>
-    {% for skill in strengths %}
-        <li>{{ skill }}</li>
-    {% else %}
-        <li>No major strengths detected.</li>
+            <p>
+                <strong>Match Score:</strong>
+                {{ candidate.match_score }}%
+            </p>
+
+            <p>
+                <strong>Recommendation:</strong>
+                {{ candidate.recommendation }}
+            </p>
+
+            <p><strong>Why this score?</strong></p>
+            <p>{{ candidate.explanation }}</p>
+
+            <p><strong>Candidate Strengths:</strong></p>
+            <ul>
+                {% for skill in candidate.strengths %}
+                    <li>{{ skill }}</li>
+                {% else %}
+                    <li>No major strengths detected.</li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>Skill Gaps:</strong></p>
+            <ul>
+                {% for skill in candidate.skill_gaps %}
+                    <li>{{ skill }}</li>
+                {% else %}
+                    <li>No major skill gaps detected.</li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>Matched Skills:</strong></p>
+            <ul>
+                {% for skill in candidate.matched_skills %}
+                    <li>{{ skill }}</li>
+                {% else %}
+                    <li>No matching skills found.</li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>Missing Skills:</strong></p>
+            <ul>
+                {% for skill in candidate.missing_skills %}
+                    <li>{{ skill }}</li>
+                {% else %}
+                    <li>No missing skills.</li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endfor %}
-</ul>
-
-<p><strong>Skill Gaps:</strong></p>
-<ul>
-    {% for skill in skill_gaps %}
-        <li>{{ skill }}</li>
-    {% else %}
-        <li>No major skill gaps detected.</li>
-    {% endfor %}
-</ul>
-        <p><strong>Matched Skills:</strong></p>
-        <ul>
-            {% for skill in matched_skills %}
-                <li>{{ skill }}</li>
-            {% else %}
-                <li>No matching skills found.</li>
-            {% endfor %}
-        </ul>
-
-        <p><strong>Missing Skills:</strong></p>
-        <ul>
-            {% for skill in missing_skills %}
-                <li>{{ skill }}</li>
-            {% else %}
-                <li>No missing skills.</li>
-            {% endfor %}
-        </ul>
-    </div>
+</div>
 {% endif %}
+
     </section>
 
 </main>
