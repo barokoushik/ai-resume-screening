@@ -101,7 +101,17 @@
             <p>
                 <strong>Recommendation:</strong>
 
-                <span class="recommendation-badge">
+                <span class="recommendation-badge
+                    {% if candidate.recommendation == 'Strong Match' %}
+                        badge-strong
+                    {% elif candidate.recommendation == 'Good Match' %}
+                        badge-good
+                    {% elif candidate.recommendation == 'Moderate Match' %}
+                        badge-moderate
+                    {% else %}
+                        badge-low
+                    {% endif %}
+                ">
                     {{ candidate.recommendation }}
                 </span>
             </p>
