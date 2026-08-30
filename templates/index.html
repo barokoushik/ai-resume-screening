@@ -84,7 +84,23 @@
             + Screen More Resumes
         </a>
     </div>
+    <div class="candidate-filters">
+    <button class="filter-btn active" onclick="filterCandidates('all', this)">
+        All Candidates
+    </button>
 
+    <button class="filter-btn" onclick="filterCandidates('Shortlisted', this)">
+        ✓ Shortlisted
+    </button>
+
+    <button class="filter-btn" onclick="filterCandidates('Review', this)">
+        ◷ Review
+    </button>
+
+    <button class="filter-btn" onclick="filterCandidates('Not Shortlisted', this)">
+        ✕ Not Shortlisted
+    </button>
+</div>
     <div class="results-layout">
     <aside class="ranking-sidebar">
         <h4>🏆 Ranking</h4>
@@ -109,7 +125,11 @@
     <div class="candidate-results">
 
     {% for candidate in candidate_results %}
-        <div class="candidate-card" id="candidate-{{ loop.index }}">
+        <div
+    class="candidate-card"
+    id="candidate-{{ loop.index }}"
+    data-status="{{ candidate.shortlist_status }}"
+>
             <h4>
                 #{{ loop.index }} — {{ candidate.name }}
             </h4>
@@ -243,11 +263,48 @@
         <p>Analyzing skills and ranking candidates.</p>
     </div>
 </div>
-
 <script>
     function showLoading() {
         document.getElementById("loading-overlay").style.display = "flex";
     }
+
+    function filterCandidates(status, button) {
+    const cards = document.querySelectorAll(".candidate-card");
+    const buttons = document.querySelectorAll(".filter-btn");
+
+    const loadingOverlay = document.getElementById("loading-overlay");
+    const loadingTitle = loadingOverlay.querySelector("h3");
+    const loadingMessage = loadingOverlay.querySelector("p");
+
+    buttons.forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    loadingTitle.textContent = "Updating candidates...";
+    loadingMessage.textContent = "Applying candidate filter.";
+
+    loadingOverlay.style.display = "flex";
+
+    setTimeout(() => {
+        cards.forEach(card => {
+            const candidateStatus = card.dataset.status;
+
+            if (status === "all" || candidateStatus === status) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        loadingOverlay.style.display = "none";
+
+        loadingTitle.textContent = "Screening resumes...";
+        loadingMessage.textContent =
+            "Analyzing skills and ranking candidates.";
+    }, 700);
+}
 </script>
 
 </body>
