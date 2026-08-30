@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About - HireLens AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <div class="nav-container">
+
+        <div class="brand-area">
+            <div class="logo">HireLens <span>AI</span></div>
+            <p>Intelligent Resume Screening</p>
+        </div>
+
+        <button
+            class="menu-toggle"
+            type="button"
+            onclick="toggleMenu()"
+            aria-label="Open navigation menu"
+        >
+            ☰
+        </button>
+
+        <nav class="nav-links" id="nav-links">
+            <a href="/">Screen Resumes</a>
+            <a href="/how-it-works">How It Works</a>
+            <a href="/about">About</a>
+        </nav>
+
+    </div>
+</header>
+
+<main>
+
+    <section class="info-page">
+
+        <h1>About HireLens AI</h1>
+
+        <p class="info-intro">
+            HireLens AI is an explainable resume-screening application
+            designed to help compare multiple candidates against job
+            requirements quickly and clearly.
+        </p>
+
+        <div class="steps-grid">
+
+            <div class="step-card">
+                <span>🎯</span>
+                <h3>Our Purpose</h3>
+                <p>
+                    Help reduce the time required to manually compare
+                    resumes by organizing important candidate information.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <span>📄</span>
+                <h3>Resume Screening</h3>
+                <p>
+                    Multiple PDF resumes can be screened against a single
+                    job description in one process.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <span>📊</span>
+                <h3>Explainable Scoring</h3>
+                <p>
+                    Candidate scores are calculated using weighted skill
+                    matching so the result can be understood and reviewed.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <span>🔍</span>
+                <h3>Transparent Results</h3>
+                <p>
+                    Results show matched skills, missing skills, strengths,
+                    skill gaps, experience overview, and recommendation.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <span>🏆</span>
+                <h3>Candidate Ranking</h3>
+                <p>
+                    Candidates are ranked by their match score and grouped
+                    into shortlist, review, or not shortlisted status.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <span>🚀</span>
+                <h3>Future Improvements</h3>
+                <p>
+                    Future versions could include semantic skill matching,
+                    improved experience analysis, and more configurable
+                    recruiter criteria.
+                </p>
+            </div>
+
+        </div>
+
+        <a href="/" class="back-home-btn">
+            ← Back to Resume Screening
+        </a>
+
+    </section>
+
+</main>
+
+<script>
+    function toggleMenu() {
+        const navLinks = document.getElementById("nav-links");
+        navLinks.classList.toggle("show");
+    }
+</script>
+
+</body>
+</html>
