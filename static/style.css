@@ -5,10 +5,26 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f7fb;
+
+    background: linear-gradient(
+        -45deg,
+        #3b82f6,
+        #6366f1,
+        #a855f7,
+        #ec4899,
+        #ef4444,
+        #f59e0b,
+        #facc15,
+        #22c55e,
+        #06b6d4,
+        #3b82f6
+    );
+
+    background-size: 600% 600%;
+    animation: gradientShift 15s ease infinite;
+
     color: #1f2937;
 }
-
 header {
     background: #111827;
     color: white;
@@ -538,4 +554,18 @@ footer {
     border-radius: 10px;
     color: #475569;
     font-weight: 600;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
