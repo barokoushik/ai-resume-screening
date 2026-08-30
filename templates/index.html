@@ -75,15 +75,31 @@
 {% endif %}
 
 {% if candidate_results %}
-<div class="result-message">
+<div class="result-message theme-glass">
 
     <div class="results-header">
-        <h3>Candidate Ranking</h3>
+    <h3>Candidate Ranking</h3>
+
+    <div class="results-actions">
+        <div class="theme-switcher">
+            <button type="button" class="theme-btn active" onclick="setResultTheme('glass', this)">
+                ✨ Glass
+            </button>
+
+            <button type="button" class="theme-btn" onclick="setResultTheme('light', this)">
+                ☀ Light
+            </button>
+
+            <button type="button" class="theme-btn" onclick="setResultTheme('dark', this)">
+                🌙 Dark
+            </button>
+        </div>
 
         <a href="/" class="screen-more-btn">
             + Screen More Resumes
         </a>
     </div>
+</div>
     <div class="candidate-filters">
     <button class="filter-btn active" onclick="filterCandidates('all', this)">
         All Candidates
@@ -305,6 +321,26 @@
             "Analyzing skills and ranking candidates.";
     }, 700);
 }
+
+    function setResultTheme(theme, button) {
+        const resultMessage = document.querySelector(".theme-glass, .theme-light, .theme-dark");
+        const buttons = document.querySelectorAll(".theme-btn");
+
+        buttons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        resultMessage.classList.remove(
+            "theme-glass",
+            "theme-light",
+            "theme-dark"
+        );
+
+        resultMessage.classList.add("theme-" + theme);
+    }
+
 </script>
 
 </body>

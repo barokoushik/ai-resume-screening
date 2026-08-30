@@ -569,3 +569,229 @@ footer {
         background-position: 0% 50%;
     }
 }
+
+/* Result theme switcher */
+.results-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.theme-switcher {
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+}
+
+.theme-btn {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.65);
+    color: #334155;
+    transition: 0.2s ease;
+}
+
+.theme-btn:hover {
+    transform: translateY(-1px);
+}
+
+.theme-btn.active {
+    background: #2563eb;
+    color: white;
+}
+
+/* Glass mode */
+.theme-glass {
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.theme-glass .candidate-card,
+.theme-glass .ranking-sidebar {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14px);
+}
+
+/* Light mode */
+.theme-light {
+    background: #f8fafc;
+}
+
+.theme-light .candidate-card,
+.theme-light .ranking-sidebar {
+    background: #ffffff;
+}
+
+/* Dark mode */
+.theme-dark {
+    background: rgba(15, 23, 42, 0.96);
+    color: #e2e8f0;
+}
+
+.theme-dark .candidate-card {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-color: #475569;
+}
+
+.theme-dark .ranking-sidebar {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-color: #475569;
+}
+
+.theme-dark .ranking-item {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-color: #475569;
+}
+
+.theme-dark .ranking-item:hover {
+    background: #334155;
+}
+
+@media (max-width: 750px) {
+    .results-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .theme-switcher {
+        justify-content: center;
+    }
+}
+
+/* Keep information panels readable in dark mode */
+.theme-dark .experience-section,
+.theme-dark .strength-section,
+.theme-dark .gap-section,
+.theme-dark .matched-section,
+.theme-dark .missing-section,
+.theme-dark .explanation-section {
+    color: #1f2937;
+}
+
+.theme-dark .experience-section p,
+.theme-dark .experience-section li,
+.theme-dark .strength-section p,
+.theme-dark .strength-section li,
+.theme-dark .gap-section p,
+.theme-dark .gap-section li,
+.theme-dark .matched-section p,
+.theme-dark .matched-section li,
+.theme-dark .missing-section p,
+.theme-dark .missing-section li,
+.theme-dark .explanation-section p {
+    color: #334155;
+}
+/* Improve ranking percentage visibility in dark mode */
+.theme-dark .rank-score {
+    color: #60a5fa;
+    font-weight: 700;
+}
+
+.theme-dark .rank-number {
+    color: #38bdf8;
+}
+.theme-dark .candidate-card progress {
+    accent-color: #3b82f6;
+}
+/* Full dark-mode result panels */
+.theme-dark .explanation-section {
+    background: #312e3f;
+}
+
+.theme-dark .experience-section {
+    background: #1e3a46;
+}
+
+.theme-dark .strength-section {
+    background: #1f3a32;
+}
+
+.theme-dark .gap-section {
+    background: #3f3025;
+}
+
+.theme-dark .matched-section {
+    background: #1e3048;
+}
+
+.theme-dark .missing-section {
+    background: #40292e;
+}
+
+/* Readable text inside dark panels */
+.theme-dark .explanation-section p,
+.theme-dark .experience-section p,
+.theme-dark .experience-section li,
+.theme-dark .strength-section p,
+.theme-dark .strength-section li,
+.theme-dark .gap-section p,
+.theme-dark .gap-section li,
+.theme-dark .matched-section p,
+.theme-dark .matched-section li,
+.theme-dark .missing-section p,
+.theme-dark .missing-section li {
+    color: #e2e8f0;
+}
+/* Dark mode filter area */
+.theme-dark .candidate-filters {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.theme-dark .filter-btn {
+    background: #334155;
+    color: #f1f5f9;
+    border-color: #475569;
+}
+
+.theme-dark .filter-btn:hover {
+    background: #475569;
+    border-color: #60a5fa;
+}
+
+.theme-dark .filter-btn.active {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #3b82f6;
+}
+/* Improve dark mode text contrast */
+.theme-dark .candidate-card h4 {
+    background: #334155;
+    color: #f8fafc;
+    border-left-color: #60a5fa;
+}
+
+.theme-dark .candidate-card p,
+.theme-dark .candidate-card li,
+.theme-dark .candidate-card strong {
+    color: #e2e8f0;
+}
+
+.theme-dark .explanation-section h5,
+.theme-dark .experience-section h5,
+.theme-dark .strength-section h5,
+.theme-dark .gap-section h5,
+.theme-dark .matched-section h5,
+.theme-dark .missing-section h5 {
+    color: #f8fafc;
+}
+
+.theme-dark .ranking-sidebar h4 {
+    color: #f8fafc;
+}
+
+.theme-dark .rank-name {
+    color: #e2e8f0;
+}
