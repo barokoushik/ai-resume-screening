@@ -13,8 +13,29 @@
 <body>
 
 <header>
-    <div class="logo">HireLens <span>AI</span></div>
-    <p>Intelligent Resume Screening</p>
+    <div class="nav-container">
+
+        <div class="brand-area">
+            <div class="logo">HireLens <span>AI</span></div>
+            <p>Intelligent Resume Screening</p>
+        </div>
+
+        <button
+            class="menu-toggle"
+            type="button"
+            onclick="toggleMenu()"
+            aria-label="Open navigation menu"
+        >
+            ☰
+        </button>
+
+        <nav class="nav-links" id="nav-links">
+            <a href="/">Screen Resumes</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#about">About</a>
+        </nav>
+
+    </div>
 </header>
 
 <main>
@@ -340,7 +361,10 @@
 
         resultMessage.classList.add("theme-" + theme);
     }
-
+    function toggleMenu() {
+        const navLinks = document.getElementById("nav-links");
+        navLinks.classList.toggle("show");
+    }
 </script>
 
 </body>
