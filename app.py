@@ -296,12 +296,18 @@ def home():
 
                     strengths = matched_skills[:5]
                     skill_gaps = missing_skills[:5]
-
+                    if match_score >= 75:
+                        shortlist_status = "Shortlisted"
+                    elif match_score >= 60:
+                        shortlist_status = "Review"
+                    else:
+                        shortlist_status = "Not Shortlisted"
                     candidate_results.append({
                         "name": candidate_name,
                         "filename": resume.filename,
                         "experience": experience,
                         "match_score": match_score,
+                        "shortlist_status": shortlist_status,
                         "recommendation": recommendation,
                         "matched_skills": matched_skills,
                         "missing_skills": missing_skills,

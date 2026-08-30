@@ -146,6 +146,21 @@
                     {{ candidate.recommendation }}
                 </span>
             </p>
+            <p>
+                <strong>Status:</strong>
+
+                <span class="shortlist-badge
+                    {% if candidate.shortlist_status == 'Shortlisted' %}
+                        shortlist-yes
+                    {% elif candidate.shortlist_status == 'Review' %}
+                        shortlist-review
+                    {% else %}
+                        shortlist-no
+                    {% endif %}
+                ">
+                    {{ candidate.shortlist_status }}
+                </span>
+            </p>
 
             <div class="explanation-section">
                 <h5>💡 Why this score?</h5>
